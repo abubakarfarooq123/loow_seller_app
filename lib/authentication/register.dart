@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
@@ -49,6 +48,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   getCurrentLocation() async {
+    bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    await Geolocator.checkPermission();
+    await Geolocator.requestPermission();
+
     Position newPosition = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );
@@ -84,7 +88,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             nameController.text.isNotEmpty &&
             phoneController.text.isNotEmpty &&
             locationController.text.isNotEmpty) {
-          authenticateSellerAndSignUp();
           //start uploading image
           showDialog(
               context: context,
@@ -105,6 +108,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               await uploadTask.whenComplete(() {});
           await taskSnapshot.ref.getDownloadURL().then((url) {
             sellerImageUrl = url;
+
+            //save info to firestore
+            authenticateSellerAndSignUp();
           });
         } else {
           showDialog(
@@ -153,7 +159,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       saveDataToFirestore(currentUser!).then((value) {
         Navigator.pop(context);
         //send user to homePage
-        Route newRoute = MaterialPageRoute(builder: (c) => HomeScreen());
+        Route newRoute = MaterialPageRoute(builder: (c) => const HomeScreen());
         Navigator.pushReplacement(context, newRoute);
       });
     }
@@ -250,7 +256,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   CustomTextField(
                     data: Icons.my_location,
                     controller: locationController,
-                    hintText: "Cafe/Restaurant Address",
+                    hintText: "My Current Address",
                     isObsecre: false,
                     enabled: true,
                   ),
@@ -278,32 +284,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  ElevatedButton(
-                    child: const Text(
-                      "Sign Up",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.cyan,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                    ),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        setState(() {
-                          formValidation();
-                        });
-                      }
-                    },
-                  ),
                 ],
               ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            ElevatedButton(
+              child: const Text(
+                "Sign Up",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.cyan,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+              ),
+              onPressed: () {
+                formValidation();
+              },
             ),
             const SizedBox(
               height: 30,

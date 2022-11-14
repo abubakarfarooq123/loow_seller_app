@@ -95,7 +95,7 @@ Widget placedOrderDesignWidget(
                     width: 10,
                   ),
                   const Text(
-                    "€ ",
+                    "KG ",
                     style: TextStyle(fontSize: 16.0, color: Colors.blue),
                   ),
                   Text(

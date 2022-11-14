@@ -42,13 +42,30 @@ class _EarningsScreenState extends State<EarningsScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                "€ " + sellerTotalEarnings!.toString(),
-                style: const TextStyle(
-                    fontSize: 80, color: Colors.white, fontFamily: "Signatra"),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 70,
+                  ),
+                  Icon(
+                    Icons.favorite,
+                    color: Colors.white,
+                    size: 60,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    sellerTotalEarnings!.toString(),
+                    style: const TextStyle(
+                        fontSize: 80,
+                        color: Colors.white,
+                        fontFamily: "Signatra"),
+                  ),
+                ],
               ),
               const Text(
-                "Total Earnings",
+                "Donation",
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.grey,
@@ -76,7 +93,7 @@ class _EarningsScreenState extends State<EarningsScreen> {
                 },
                 child: const Card(
                   color: Colors.white54,
-                  margin: EdgeInsets.symmetric(vertical: 40, horizontal: 140),
+                  margin: EdgeInsets.symmetric(vertical: 40, horizontal: 118),
                   child: ListTile(
                     leading: Icon(
                       Icons.arrow_back,

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:loow_seller_app/mainScreens/earnings_screen.dart';
+import 'package:loow_seller_app/mainScreens/history_screen.dart';
+import 'package:loow_seller_app/mainScreens/new_orders_screen.dart';
 
 import '../authentication/auth_screen.dart';
 import '../global/global.dart';
@@ -77,14 +80,19 @@ class MyDrawer extends StatelessWidget {
                 ),
                 ListTile(
                   leading: const Icon(
-                    Icons.monetization_on,
+                    Icons.favorite,
                     color: Colors.black,
                   ),
                   title: const Text(
-                    "My Earnings",
+                    "Donation",
                     style: TextStyle(color: Colors.black),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (c) => const EarningsScreen()));
+                  },
                 ),
                 const Divider(
                   height: 10,
@@ -100,7 +108,10 @@ class MyDrawer extends StatelessWidget {
                     "New orders",
                     style: TextStyle(color: Colors.black),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (c) => NewOrdersScreen()));
+                  },
                 ),
                 const Divider(
                   height: 10,
@@ -116,7 +127,10 @@ class MyDrawer extends StatelessWidget {
                     "History - Orders",
                     style: TextStyle(color: Colors.black),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (c) => HistoryScreen()));
+                  },
                 ),
                 const Divider(
                   height: 10,
